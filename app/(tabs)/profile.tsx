@@ -1,5 +1,6 @@
 import { Box } from '@/components/ui/box';
 import { Button } from '@/components/ui/button';
+import { HStack } from '@/components/ui/hstack';
 import { Input, InputField } from '@/components/ui/input';
 import { Text } from '@/components/ui/text';
 import { Profile, useAuthStore } from '@/stores/authStore';
@@ -78,6 +79,16 @@ export default function ProfileScreen() {
     setNotifications((prev) => ({ ...prev, [key]: !prev[key] }));
   };
 
+  const handleDiscard = () => {
+    setFirstName(profile.firstName);
+    setLastName(profile.lastName);
+    setEmail(profile.email);
+    setPhone(profile.phone);
+    setAvatar(profile.avatar);
+    setNotifications(profile.notifications);
+    setPhoneError('');
+  };
+
   return (
     <SafeAreaView edges={['top']} className="flex-1 px-6 bg-white dark:bg-black">
       <View className="flex-row items-center justify-between py-6">
@@ -95,7 +106,7 @@ export default function ProfileScreen() {
         </TouchableOpacity>
       </View>
       <ScrollView className='flex-1' showsVerticalScrollIndicator={false}>
-        <Box className='flex-1'>
+        <Box className='flex-1 py-4'>
 
 
           <View className="items-center mb-6">
@@ -177,9 +188,22 @@ export default function ProfileScreen() {
           >
             <Text className="text-black font-bold">Logout</Text>
           </Button>
-          <Button className="bg-[#495e57] p-4 rounded-lg h-16" onPress={handleSave} disabled={saving}>
-            <Text className="text-white font-bold">{saving ? 'Saving...' : 'Save Changes'}</Text>
-          </Button>
+          <HStack className="flex-row gap-4">
+            <Button
+              className="flex-1 bg-[#495e57] p-4 rounded-lg h-16"
+              onPress={handleSave}
+              disabled={saving}
+            >
+              <Text className="text-white font-bold">{saving ? 'Saving...' : 'Save Changes'}</Text>
+            </Button>
+            <Button
+              className="flex-1 bg-gray-300 p-4 rounded-lg h-16"
+              onPress={handleDiscard}
+              disabled={saving}
+            >
+              <Text className="text-black font-bold">Discard Changes</Text>
+            </Button>
+          </HStack>
         </Box>
       </ScrollView>
     </SafeAreaView>
